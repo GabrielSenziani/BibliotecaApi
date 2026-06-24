@@ -9,6 +9,10 @@ const LivroSchema = new mongoose.Schema({
     type: String,
     required: true
    },
+   disponibilidade: {
+    type: Boolean,
+    default: true
+   },
 });
 
 export const Livro = mongoose.model("Livro", LivroSchema)
