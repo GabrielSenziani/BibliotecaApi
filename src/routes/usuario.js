@@ -26,7 +26,7 @@ router.post("/cadastro", async (req, res) => {
     try {
      if (req.body.senha.length < 6) {
         return res.status(400).json({
-            mensagem: "Menos que 6 caracteres não são permitidos"
+            mensagem: "Senhas com menos que 6 caracteres não são permitidos"
         })
      }
      if (!/[0-9]/.test(req.body.senha)) {
