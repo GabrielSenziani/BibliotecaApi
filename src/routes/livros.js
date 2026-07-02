@@ -45,14 +45,12 @@ router.post("/", async (req, res) => {
         mensagem: "Campo em branco não são permitidos"
     }); 
   } else {
-     await Livro.create({
+     const livroCriado = await Livro.create({
       titulo: req.body.titulo, 
       autor: req.body.autor
     });
 
-     return res.status(201).json({
-     mensagem: "Livro criado",
-    });
+     return res.status(201).json(livroCriado);
   }
 });
 
