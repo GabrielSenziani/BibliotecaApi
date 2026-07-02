@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 
 import { Usuario } from "../models/Usuario.js"
 import { connectionDB } from "../database/connection.js"
+import { Livro } from "../models/Livro.js"
 
 let token
 let idLivro
@@ -24,6 +25,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     const deletaUsuario = await Usuario.deleteOne({ email: "isadora@gmail.com" })
+    const deletaLivroCriado = await Livro.deleteOne({ _id: idLivro })
 })
 
 test("GET livros com autenticação", async () => {
