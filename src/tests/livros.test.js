@@ -8,6 +8,7 @@ import { Livro } from "../models/Livro.js"
 
 let token
 let idLivro
+let idLivroCriado
 
 beforeAll(async () => {
     await connectionDB()
@@ -26,6 +27,9 @@ beforeAll(async () => {
 afterAll(async () => {
     const deletaUsuario = await Usuario.deleteOne({ email: "isadora@gmail.com" })
     const deletaLivroCriado = await Livro.deleteOne({ _id: idLivro })
+    const deletaLivro = await Livro.deleteOne({ _id: idLivroCriado })
+
+    await mongoose.connection.close()
 })
 
 test("GET livros com autenticação", async () => {
@@ -42,4 +46,24 @@ test("DELETE livro", async () => {
   .set("Authorization", `Bearer ${token}`)
 
   expect(resposta.status).toBe(200)
+})
+
+test("POST livro", async () => {
+    const resposta = await request(app)
+    .post("/livros")
+    .send({ titulo: "Bleach", autor: "Senziani"})
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(resposta.status).toBe(201)
+
+    idLivroCriado = resposta.body._id
+})
+
+test("PUT livro", async () => {
+    const atualiza = await request(app)
+    .put(`/livros/${idLivroCriado}`)
+    .send({ titulo: "Bleach", autor: "Cassolato" })
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(atualiza.status).toBe(200)
 })
