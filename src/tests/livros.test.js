@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import request from "supertest"
 import app from "../app.js"
 import mongoose from "mongoose"
@@ -11,6 +14,7 @@ let idLivro
 let idLivroCriado
 
 beforeAll(async () => {
+
     await connectionDB()
     const resposta = await request(app).post("/usuarios/cadastro").send({ email: "isadora@gmail.com", senha: "isa123" })
     const respostaLogin = await request(app).post("/usuarios/login").send({ email: "isadora@gmail.com", senha: "isa123"})
