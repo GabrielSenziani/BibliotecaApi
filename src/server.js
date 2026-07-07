@@ -1,7 +1,7 @@
 import app from "./app.js"
 import { connectionDB } from "./database/connection.js";
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000;
 
 connectionDB().then(() => {
     app.listen(PORT, () => {
