@@ -1,14 +1,33 @@
 # BibliotecaApi
 
-API RESTful para gerenciamento de livros, com autenticação de usuários, controle de empréstimos e deploy contínuo.
+API RESTful desenvolvida com Node.js e Express para gerenciamento de livros, autenticação de usuários utilizando JWT e controle de empréstimos.
 
-**API em produção:** https://bibliotecaapi-24db.onrender.com
+A aplicação conta com testes automatizados, containerização com Docker, integração contínua com GitHub Actions e deploy automático no Render.
 
-> **Observação:** O deploy utiliza o plano gratuito do Render. A primeira requisição após um período de inatividade pode levar alguns segundos enquanto o serviço é iniciado, e como existem middlewares, a requisição get livros fica como não autorizada no navegador, por isso é necessário acessar a rota POST /cadastro e POST /login, antes de acessar a rota GET /livros.
+## API em produção
+
+https://bibliotecaapi-24db.onrender.com
+
+> **Observação:** O projeto está hospedado no plano gratuito do Render. A primeira requisição após um período de inatividade pode levar alguns segundos enquanto o serviço é iniciado.
 
 ---
 
-# Tecnologias
+## Funcionalidades
+
+- Cadastro de usuários
+- Login com autenticação JWT
+- CRUD completo de livros
+- Empréstimo e devolução de livros
+- Validação de dados
+- Proteção de rotas
+- Testes automatizados com Jest e Supertest
+- Containerização com Docker
+- Integração Contínua (GitHub Actions)
+- Deploy Contínuo (Render)
+
+---
+
+## Stack utilizada
 
 - Node.js
 - Express
@@ -25,7 +44,7 @@ API RESTful para gerenciamento de livros, com autenticação de usuários, contr
 
 ---
 
-# Estrutura do projeto
+## Estrutura do projeto
 
 ```text
 BibliotecaApi/
@@ -55,79 +74,82 @@ BibliotecaApi/
 ├── .gitignore
 ├── docker-compose.yml
 ├── Dockerfile
-└── package.json
+├── LICENSE
+├── package.json
+└── README.md
 ```
 
 ---
 
-# Como executar com Docker
+## Como executar o projeto
 
-## Pré-requisitos
+### Pré-requisitos
 
 - Docker
 - Docker Compose
 
-## Clone o repositório
+### Clone o repositório
 
 ```bash
 git clone https://github.com/GabrielSenziani/BibliotecaApi.git
+
 cd BibliotecaApi
 ```
 
-## Crie o arquivo `.env`
+### Configure o arquivo `.env`
 
 ```env
 MONGO_URI=mongodb://database:27017/biblioteca
 JWT_SECRET=sua_chave_secreta
 ```
 
-## Inicie os containers
+### Execute os containers
 
 ```bash
 docker compose up
 ```
 
-A aplicação ficará disponível em:
+A API ficará disponível em:
 
 ```
 http://localhost:3000
 ```
 
-O MongoDB será executado em um container separado, sem necessidade de instalação local.
+O MongoDB será iniciado em um container separado.
 
 ---
 
-# Executando os testes
+## Executando os testes
 
-Os testes foram desenvolvidos com Jest e Supertest e cobrem os principais fluxos da aplicação.
+Os testes utilizam Jest e Supertest para validar os principais fluxos da aplicação.
 
 ```bash
 npm test
 ```
 
-A suíte de testes também é executada automaticamente pelo GitHub Actions a cada push para o repositório.
+Os testes também são executados automaticamente pelo GitHub Actions a cada push realizado no repositório.
 
 ---
 
-# Autenticação
+## Autenticação
 
-A maior parte das rotas da API exige autenticação utilizando JWT.
+A maior parte das rotas exige autenticação via JWT.
 
-Fluxo:
+Fluxo de autenticação:
 
-1. Cadastre um usuário em:
+1. Cadastre um usuário
 
 ```
 POST /usuarios/cadastro
 ```
 
-2. Faça login em:
+2. Faça login
 
 ```
 POST /usuarios/login
 ```
 
-3. Utilize o token retornado no cabeçalho das requisições protegidas:
+3. Utilize o token retornado nas requisições protegidas
 
 ```http
 Authorization: Bearer SEU_TOKEN
@@ -135,16 +157,16 @@ Authorization: Bearer SEU_TOKEN
 
 ---
 
-# Endpoints
+## Endpoints
 
-## Usuários
+### Usuários
 
-| Método | Rota | Autenticação | Descrição |
-|---------|------|--------------|-----------|
-| POST | `/usuarios/cadastro` | Não | Cadastra um usuário |
-| POST | `/usuarios/login` | Não | Realiza login e retorna um token JWT |
+| Método | Endpoint | Autenticação | Descrição |
+|---------|----------|--------------|-----------|
+| POST | `/usuarios/cadastro` | Não | Cadastro de usuário |
+| POST | `/usuarios/login` | Não | Login e geração do token JWT |
 
-### Exemplo de cadastro
+### Exemplo
 
 ```json
 {
@@ -153,7 +175,7 @@ Authorization: Bearer SEU_TOKEN
 }
 ```
 
-A senha deve possuir:
+A senha deve conter:
 
 - mínimo de 6 caracteres;
 - pelo menos uma letra;
@@ -161,19 +183,19 @@ A senha deve possuir:
 
 ---
 
-## Livros
+### Livros
 
-| Método | Rota | Autenticação | Descrição |
-|---------|------|--------------|-----------|
+| Método | Endpoint | Autenticação | Descrição |
+|---------|----------|--------------|-----------|
 | GET | `/livros` | Sim | Lista todos os livros |
-| GET | `/livros/:id` | Sim | Busca um livro pelo ID |
+| GET | `/livros/:id` | Sim | Busca um livro por ID |
 | POST | `/livros` | Sim | Cadastra um livro |
 | PUT | `/livros/:id` | Sim | Atualiza um livro |
 | DELETE | `/livros/:id` | Sim | Remove um livro |
 | POST | `/livros/:id/emprestar` | Sim | Marca um livro como emprestado |
 | POST | `/livros/:id/devolver` | Sim | Marca um livro como disponível |
 
-### Exemplo de cadastro de livro
+### Exemplo
 
 ```json
 {
@@ -184,7 +206,7 @@ A senha deve possuir:
 
 ---
 
-# Respostas de erro
+## Respostas de erro
 
 | Status | Descrição |
 |---------|-----------|
@@ -195,19 +217,19 @@ A senha deve possuir:
 
 ---
 
-# Integração e Deploy
+## CI/CD
 
-## Integração Contínua (CI)
+### Integração Contínua (CI)
 
 A cada push para o repositório, o GitHub Actions:
 
 - instala as dependências;
-- configura as variáveis de ambiente utilizando os *Secrets* do GitHub;
-- executa toda a suíte de testes automaticamente.
+- configura as variáveis de ambiente utilizando os Secrets do GitHub;
+- executa automaticamente toda a suíte de testes.
 
-## Entrega Contínua (CD)
+### Entrega Contínua (CD)
 
-O deploy é realizado automaticamente pelo Render sempre que há um push na branch `main`.
+A aplicação é publicada automaticamente no Render sempre que um novo commit é enviado para a branch `main`.
 
 ---
 
