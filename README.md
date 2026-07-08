@@ -213,4 +213,4 @@ O deploy é realizado automaticamente pelo Render sempre que há um push na bran
 
 # Licença
 
-Projeto desenvolvido para fins de estudo e portfólio.
+MIT © [Gabriel Senziani](https://github.com/GabrielSenziani)
