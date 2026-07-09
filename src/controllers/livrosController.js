@@ -2,7 +2,12 @@ import { Livro } from "../models/Livro.js";
 import mongoose from "mongoose";
 
 export const livrosRegistrados = async (req, res) => {
-    const livros = await Livro.find();
+    const page = req.query.page || 1
+    const limit = req.query.limit || 10
+    
+    const pular = (page - 1) * limit
+
+    const livros = await Livro.find().skip(pular).limit(limit);
          
     res.status(200).json(livros)
 }
