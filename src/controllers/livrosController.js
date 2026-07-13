@@ -65,7 +65,7 @@ export const criarLivro = async (req, res) => {
       } try {
         const livroCriado = await Livro.create({titulo, autor});
         
-        logger.info("Livro criado com sucesso", { livro: livroCriado })
+        logger.info("Livro criado com sucesso", { livroId: livroCriado._id, titulo: livroCriado.titulo })
 
         return res.status(201).json(livroCriado);
       } catch (erro) {
