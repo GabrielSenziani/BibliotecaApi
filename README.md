@@ -41,6 +41,7 @@ https://bibliotecaapi-24db.onrender.com
 - Supertest
 - GitHub Actions
 - Render
+- Winston
 
 ---
 
@@ -52,6 +53,8 @@ BibliotecaApi/
 │   └── workflows/
 │       └── tests.yml
 ├── src/
+│   ├── config/
+│   │   ├── loggers.js
 │   ├── controllers/
 │   │   ├── livrosController.js
 │   │   └── usuariosController.js
