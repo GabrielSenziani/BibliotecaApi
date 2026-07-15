@@ -1,4 +1,6 @@
 import logger from "../config/logger.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
 
 import { Livro } from "../models/Livro.js";
 import mongoose from "mongoose";
@@ -74,6 +76,66 @@ export const criarLivro = async (req, res) => {
         
         return res.status(500).json({ erro: "Erro interno do servidor" });
       }
+}
+
+export const uploadCapaLivro = async (req, res) => {
+   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        logger.warn("O usuario tentou colocar um ID invalido na rota de uploadCapaLivro")
+
+        return res.status(400).json({
+          mensagem: "formato do ID invalido"
+        })
+      } try {
+            const livro = await Livro.findById(req.params.id)
+            
+           if (!livro) {
+            logger.warn("Não foi possivel encontrar o id do livro")
+
+            return res.status(404).json({
+              mensagem: "Id não encontrado"
+            })
+           } 
+           if (!req.file) {
+            logger.warn("Nenhum arquivo foi enviado na rota uploadCapaLivro")
+
+            return res.status(400).json({
+              mensagem: "É necessário enviar uma imagem"
+            })
+           }
+           
+           const resultadoUpload = await new Promise((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                  folder: "biblioteca/capas"
+                },
+                (erro, resultado) => {
+                  if(erro) {
+                    return reject(erro)
+                  }
+
+                  resolve(resultado)
+                }
+              )
+              streamifier.createReadStream(req.file.buffer).pipe(uploadStream)
+           });
+
+           livro.capa = resultadoUpload.secure_url
+           await livro.save()
+
+           logger.info("Capa do livro enviada com sucesso", {
+           livroId: livro._id,
+           url: livro.capa
+          });
+
+           return res.status(200).json(livro);
+    
+          } catch (erro) {
+           logger.error("Erro inesperado na rota de uploadCapaLivro", { erro: erro.message })
+
+           return res.status(500).json({
+            erro: "erro inesprado do servidor"
+           })
+          }
 }
 
 export const emprestarLivro = async (req, res) => {
