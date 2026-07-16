@@ -5,6 +5,38 @@ import { atualizarLivro, buscarLivroPorID, criarLivro, deletarLivro, devolverLiv
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /livros:
+ *   get:
+ *     summary: Lista todos os livros registrados
+ *     tags: 
+ *       - Livros
+ *     responses:
+ *       200:
+ *         description: Lista de livros retornada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   titulo:
+ *                     type: string
+ *                     example: O mal do saber
+ *                   autor:
+ *                     type: string
+ *                     example: Socrates
+ *                   disponibilidade:
+ *                     type: boolean
+ *                     example: true
+ *                   capa:
+ *                     type: string
+ *                     example: example: https://res.cloudinary.com/.../capa.jpg
+ */
 router.get("/", livrosRegistrados)
 router.get("/:id", buscarLivroPorID)
 router.post("/", criarLivro)
