@@ -14,7 +14,35 @@ const swaggerConfig = {
             scheme: "bearer",
             bearerFormat: "JWT"
         }
-     }
+     },
+        schemas: {
+            Livro: {
+                type: "object",
+                required: [
+                    "titulo", 
+                    "autor"
+                ],
+                properties: {
+                    _id: {
+                        type: "string"
+                    },
+                    titulo: {
+                        type: "string"
+                    },
+                    autor: {
+                        type: "string"
+                    },
+                    disponibilidade: {
+                        type: "boolean"
+                    },
+                    capa: {
+                        type: "string"
+                    }
+
+                }
+                  
+            }
+      }
     }
    },
    apis:["./src/routes/*.js"], 
