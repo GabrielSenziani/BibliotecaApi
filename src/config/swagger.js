@@ -41,7 +41,34 @@ const swaggerConfig = {
 
                 }
                   
+            },
+         CredenciaisUsuario: {
+            type: "object",
+            required: [
+                "email",
+                "senha"
+            ],
+            properties: {
+                email: {
+                    type: "string",
+                    example: "usuario@email.com"
+                },
+                senha: {
+                    type: "string",
+                    example: "1234T6"
+                }
             }
+         },
+         TokenJWT: {
+            type: "object",
+            required: [ "token" ],
+            properties: {
+                token: {
+                    type: "string",
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+            }
+         }
       }
     }
    },
