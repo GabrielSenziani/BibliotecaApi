@@ -68,6 +68,16 @@ const swaggerConfig = {
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                 }
             }
+         },
+         MensagemSucesso: {
+            type: "object",
+            required: [ "mensagem" ],
+            properties: {
+                mensagem: {
+                    type: "string",
+                    example: "Operação realizada com sucesso"
+                }
+            }
          }
       }
     }

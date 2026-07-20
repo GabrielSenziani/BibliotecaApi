@@ -22,6 +22,10 @@ const router = express.Router()
  *     responses:
  *       201:
  *         description: Usuario cadastrado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensagemSucesso'
  *       400:
  *         description: >
  *           Erro na requisição. Cenários possiveis
