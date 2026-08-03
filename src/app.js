@@ -10,6 +10,9 @@ import { middlewareAuth } from "./middlewares/auth.js";
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.json({ mensagem: "API da Biblioteca rodando com sucesso!" });
+});
 
 app.use(express.json());
 
